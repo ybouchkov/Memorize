@@ -8,27 +8,40 @@
 import SwiftUI
 
 struct ContentView: View {
-    var emojis: Array<String> = [
-        "🚕", "✈️", "🚁", "🚐", "🚛", "🚓", "🧳", "🏍",
-        "🚀", "🏎", "⛴", "🛻", "🚝", "🚌", "🚂", "🚡",
-        "🚇", "🚲", "🚃", "🚅", "⛵️", "🛫", "🚤", "🚍",
-    ]
-    @State var emojiCount = 24
+    @State var emojis: Array<String> = [] // initial state
+    @State var emojiCount = 0
+    
     var body: some View {
         VStack {
+            Text("Memorize!")
+                .font(.largeTitle)
             ScrollView {
-                LazyVGrid(columns: [GridItem(.adaptive(minimum: 65))]) {
-                    ForEach(emojis[..<emojiCount], id: \.self) { emoj in
-                        CardView(content: emoj)
-                            .aspectRatio(2/3, contentMode: .fit)
-                        
+                if !emojis.isEmpty {
+                    LazyVGrid(columns: [GridItem(.adaptive(minimum: 65))]) {
+                        ForEach(emojis[..<emojiCount], id: \.self) { emoj in
+                            CardView(content: emoj)
+                                .aspectRatio(2/3.5, contentMode: .fit)
+                            
+                        }
                     }
+                } else {
+                    VStack {
+                        Image(systemName: "theatermasks.fill")
+                        Text("No theme has been choosen!")
+                    }.font(.largeTitle)
                 }
             }
             .foregroundColor(.red)
+            Text("Choose one the theme: V / F / W")
             Spacer()
             HStack {
                 remove
+                Spacer()
+                vehicles
+                Spacer()
+                food
+                Spacer()
+                weather
                 Spacer()
                 add
             }
@@ -45,7 +58,10 @@ struct ContentView: View {
                 emojiCount -= 1
             }
         } label: {
-            Image(systemName: "minus.circle")
+            VStack {
+                Image(systemName: "minus.circle")
+                Text("Remove").font(.system(size: 9)).fontWeight(.light)
+            }
 
         }
     }
@@ -56,8 +72,59 @@ struct ContentView: View {
                 emojiCount += 1
             }
         } label: {
-            Image(systemName: "plus.circle")
+            VStack {
+                Image(systemName: "plus.circle")
+                Text("Add").font(.system(size: 9)).fontWeight(.light)
+            }
                 
+        }
+    }
+    
+    var vehicles: some View {
+        Button {
+            emojiCount = 8
+            emojis = [
+                "🚕", "✈️", "🚁", "🚐", "🚛", "🚓", "🧳", "🏍",
+                "🚀", "🏎", "⛴", "🛻", "🚝", "🚌", "🚂", "🚡",
+                "🚇", "🚲", "🚃", "🚅", "⛵️", "🛫", "🚤", "🚍",
+            ].shuffled()
+        } label: {
+            VStack {
+                Image(systemName: "car.circle")
+                Text("Vehicles").font(.system(size: 9)).fontWeight(.light)
+            }
+        }
+    }
+    
+    var food: some View {
+        Button {
+            emojiCount = 12
+            emojis = [
+                "🍔", "🌭", "🌮", "🌯", "🥙", "🥗", "🥪", "🍕",
+                "🍟", "🍖", "🍗", "🥓", "🍱", "🥘", "🧆", "🍲",
+                "🍛", "🍜", "🍝", "🍣", "🍤", "🍿", "🥟", "🍳",
+            ].shuffled()
+        } label: {
+            VStack {
+                Image(systemName: "pills.circle")
+                Text("Food").font(.system(size: 9)).fontWeight(.light)
+            }
+        }
+    }
+    
+    var weather: some View {
+        Button {
+            emojiCount = 15
+            emojis = [
+                "🌡", "☁️", "☀️", "🌤", "🌥", "🌦", "🌧", "🌨",
+                "⛈", "🌩", "⚡️", "☔️", "☂️", "❄️", "🌪", "💨",
+                "🌈", "🤢", "🤮", "🤧", "😷", "🤕", "☃️", "🤒",
+            ].shuffled()
+        } label: {
+            VStack {
+                Image(systemName: "sun.max.circle")
+                Text("Weather").font(.system(size: 9)).fontWeight(.light)
+            }
         }
     }
 }
